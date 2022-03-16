@@ -1,0 +1,23 @@
+{
+    "name": "webkotlas/iiko-api",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+      "php": ">=5.6.0"
+    },
+    "require-dev": {},
+    "autoload": {
+      "classmap": [
+        "src/"
+      ]
+    },
+  "homepage": "https://github.com/webkotlas/iiko-api",
+  "scripts": {},
+  "authors": [
+    {
+      "name": "WEB Kotlas",
+      "email": "maxim@web-kotlas.ru"
+    }
+  ]
+}
