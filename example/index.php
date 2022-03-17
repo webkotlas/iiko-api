@@ -5,9 +5,7 @@
  * Date: 11/03/2022
  * Time: 12:51
  */
-include_once "../src/iikoApi.php";
-include_once "../src/iikoApiCore.php";
-include_once "../src/Descriptions.php";
+include_once "../vendor/autoload.php";
 
 use webkotlas\iiko\iikoApi;
 

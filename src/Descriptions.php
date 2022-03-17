@@ -522,7 +522,7 @@ class OrdersAPI{
      * @return ResponseOrderInfo API
      * @throws \Exception
      */
-    public function searchOrder(string $orderId, $sourceKeys = ''){
+    public function searchOrder($orderId, $sourceKeys = ''){
         try {
             $params = [
                 'organizationIds' => [$this->api->organization_id],
@@ -544,7 +544,7 @@ class OrdersAPI{
      * @return mixed
      * @throws \Exception
      */
-    public function cancel(string $orderId){
+    public function cancel($orderId){
         try {
             $params = [
                 'organizationId' => $this->api->organization_id,
@@ -563,7 +563,7 @@ class OrdersAPI{
      * @return ResponseOrderInfo API
      * @throws \Exception
      */
-    public function searchOrderDelivery(string $orderId, $sourceKeys = ''){
+    public function searchOrderDelivery($orderId, $sourceKeys = ''){
         try {
             $params = [
                 'organizationIds' => [$this->api->organization_id],
@@ -585,7 +585,7 @@ class OrdersAPI{
      * @return object API
      * @throws \Exception
      */
-    public function cancelDelivery(string $orderId){
+    public function cancelDelivery($orderId){
         try {
             $params = [
                 'organizationId' => $this->api->organization_id,
@@ -620,7 +620,7 @@ class TerminalGroupAPI{
      * @return array - Api Response
      * @throws \Exception
      */
-    public function get(bool $includeDisabled = false)
+    public function get($includeDisabled = false)
     {
         $params = [
             'organizationIds' => [$this->api->organization_id],
@@ -1688,7 +1688,7 @@ class NewOrderData
      * @param string $organizationId
      * @throws \Exception
      */
-    public function __construct(string $organizationId)
+    public function __construct($organizationId)
     {
         if (empty($organizationId))
         {
@@ -1701,7 +1701,7 @@ class NewOrderData
      * @param string $phone
      * @return $this
      */
-    public function setPhone(string $phone): self
+    public function setPhone($phone)
     {
         $this->phone = $phone;
         return $this;
@@ -1712,7 +1712,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setCustomerInfo(array $customerInfo): self
+    public function setCustomerInfo($customerInfo)
     {
         //Если 'id' null - номер телефона ищется в базе данных, иначе новый клиент создается в RMS.
         if(!isset($customerInfo['id'])) {
@@ -1752,7 +1752,7 @@ class NewOrderData
      * @param array $order
      * @return $this
      */
-    public function setOrder(array $order): self
+    public function setOrder($order)
     {
         $this->order = $order;
         return $this;
@@ -1763,7 +1763,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setItems(array $items): self
+    public function setItems(array $items)
     {
         if(count($items) === 0){
             throw new \Exception('Items array not been empty!');
@@ -1788,7 +1788,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setCombos(array $combos): self
+    public function setCombos(array $combos)
     {
         if(count($combos) === 0){
             throw new \Exception('Combos array not been empty!');
@@ -1820,7 +1820,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setPayments(array $payments): self
+    public function setPayments(array $payments)
     {
         foreach ($payments as $payment){
             if (
@@ -1853,7 +1853,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setTips(array $tips): self
+    public function setTips($tips)
     {
         foreach ($tips as $payment){
             if (
@@ -1884,7 +1884,7 @@ class NewOrderData
      * @param string|null $track
      * @return $this
      */
-    public function setDiscount(?string $track): self
+    public function setDiscount($track)
     {
         if (!empty($track)) {
             $this->discountsInfo = $track;
@@ -1897,7 +1897,7 @@ class NewOrderData
      * @param string $organizationId
      * @return $this
      */
-    public function setOrganizationId(string $organizationId): self
+    public function setOrganizationId($organizationId)
     {
         $this->organizationId = $organizationId;
         return $this;
@@ -1908,7 +1908,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setDeliveryPoint(array $address): self
+    public function setDeliveryPoint($address)
     {
         if (count($address) === 0)
         {
@@ -1930,7 +1930,7 @@ class NewOrderData
      * @param string $type
      * @return $this
      */
-    public function setOrderServiceType(string $type = ''): self
+    public function setOrderServiceType($type = '')
     {
         if(!in_array($type, ['DeliveryByCourier', 'DeliveryByClient'])) {
             $type = 'DeliveryByCourier';
@@ -1943,7 +1943,7 @@ class NewOrderData
      * @param string $type
      * @return $this
      */
-    public function setOrderTypeId(string $type = ''): self
+    public function setOrderTypeId($type = '')
     {
         $this->orderTypeId = $type;
         return $this;
@@ -1953,7 +1953,7 @@ class NewOrderData
      * @param int $count
      * @return $this
      */
-    public function setPersons(int $count): self
+    public function setPersons($count)
     {
         $this->guests = [
             'count' => $count,
@@ -1966,7 +1966,7 @@ class NewOrderData
      * @param string $comment
      * @return $this
      */
-    public function setComment(string $comment): self
+    public function setComment($comment)
     {
         $this->comment = $comment;
         return $this;
@@ -1976,7 +1976,7 @@ class NewOrderData
      * @param string $terminalGroupId
      * @return $this
      */
-    public function setTerminalGroupId(string $terminalGroupId): self
+    public function setTerminalGroupId($terminalGroupId)
     {
         $this->terminalGroupId = $terminalGroupId;
         return $this;
@@ -1987,7 +1987,7 @@ class NewOrderData
      * @return $this
      * @throws \Exception
      */
-    public function setSourceKey(string $sourceKey = ''): self
+    public function setSourceKey($sourceKey = '')
     {
         if (empty($sourceKey)) {
             throw new \Exception('source key not been empty!');
@@ -2000,12 +2000,12 @@ class NewOrderData
      * @param string $tabName
      * @return $this
      */
-    public function setTabName(string $tabName = ''){
+    public function setTabName($tabName = ''){
         $this->tabName = $tabName;
         return $this;
     }
 
-    public function export(): array
+    public function export()
     {
         $response = [];
         $response['organizationId'] = $this->organizationId;
