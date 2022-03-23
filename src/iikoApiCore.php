@@ -22,6 +22,8 @@ class iikoApiCore
     public $user_agent = 'WK iiko PHP API Library';
     public $domain = 'api-ru.iiko.services';
     public $protocol = 'https';
+    public $proxy = '';
+    public $proxy_pwd = '';
 
     // helpers
     public $base_api_url;
@@ -84,6 +86,7 @@ class iikoApiCore
      * @param string $type
      * @param string $params
      * @param bool $json
+     * @param array $headers
      * @return mixed
      */
     public function sendRequest($url, $type = 'POST', $params = '', $json = false, $headers = [])
@@ -96,6 +99,14 @@ class iikoApiCore
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
+
+        // подключение к прокси-серверу
+        if(!empty($this->proxy)) {
+            curl_setopt($ch, CURLOPT_PROXY, $this->proxy);
+        }
+        if(!empty($this->proxy_pwd)) {
+            curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy_pwd);
+        }
 
         if (count($headers)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -138,11 +149,10 @@ class iikoApiCore
      * @return mixed
      * @throws \Exception
      */
-    public function makeApiRequest($method, $type = 'POST', $params = '')
+    public function makeApiRequest($method, $type = 'POST', $params = '', $headers=[])
     {
         $getParams = [];
         $_getParams = '';
-        $headers = [];
 
         if ($this->access_token) {
             $headers[] = "Authorization: Bearer {$this->access_token}";
