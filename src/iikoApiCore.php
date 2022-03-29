@@ -10,7 +10,7 @@ namespace webkotlas\iiko;
 
 class iikoApiCore
 {
-    const VERSION = "1.0.0";
+    const VERSION = "1.0.3";
 
     // required without access_token
     public $api_key;

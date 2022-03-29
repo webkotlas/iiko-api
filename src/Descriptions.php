@@ -2114,6 +2114,41 @@ class ResponseOrderInfo{
     }
 
     /**
+     * @return bool
+     */
+    public function isInProgress(){
+        return ($this->creationStatus == "InProgress");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuccess(){
+        return ($this->creationStatus == "Success");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isError(){
+        return ($this->creationStatus == "Error");
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatusOrder(){
+        return ($this->order instanceof OrderInfo) ? $this->order->getStatus() : null;
+    }
+
+    /**
+     * @return OrderInfo|null
+     */
+    public function getOrder(){
+        return ($this->order instanceof OrderInfo) ? $this->order : null;
+    }
+
+    /**
      * @param $response
      * @return ResponseOrderInfo
      */
@@ -2206,5 +2241,82 @@ class OrderInfo{
                 $this->$key = $value;
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(){
+        return $this->status;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusUnconfirmed(){
+        return self::StatusUnconfirmed == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusWaitCooking(){
+        return self::StatusWaitCooking  == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusReadyForCooking(){
+        return self::StatusReadyForCooking == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusCookingStarted(){
+        return self::StatusCookingStarted == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusCookingCompleted(){
+        return self::StatusCookingCompleted == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusWaiting(){
+        return self::StatusWaiting == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusOnWay(){
+        return self::StatusOnWay == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusDelivered(){
+        return self::StatusDelivered == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusClosed(){
+        return self::StatusClosed == $this->getStatus();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStatusCancelled(){
+        return self::StatusCancelled == $this->getStatus();
     }
 }
