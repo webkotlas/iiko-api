@@ -2005,6 +2005,19 @@ class NewOrderData
         return $this;
     }
 
+    /**
+     * Y-m-d H:i:s.000
+     * Дата выполнения заказа.
+     * Дата и время должны быть местными для терминала доставки, без часового пояса (см. пример).
+     * Если ноль, то заказ срочный и время рассчитывается исходя из настроек клиента, т.е. максимально короткое время доставки.
+     * @param string $completeBefore
+     * @return $this
+     */
+    public function completeTime($completeTime = ''){
+        $this->completeBefore = $completeTime;
+        return $this;
+    }
+
     public function export()
     {
         $response = [];
@@ -2024,6 +2037,10 @@ class NewOrderData
             }
 
             $response['order']['phone'] = $this->phone;
+
+            if(!empty($this->completeBefore)){
+                $response['order']['completeBefore'] = $this->completeBefore;
+            }
 
             if(!empty($this->tabName)){
                 $response['order']['tabName'] = $this->tabName;
