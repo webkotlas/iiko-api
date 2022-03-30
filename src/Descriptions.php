@@ -580,18 +580,47 @@ class OrdersAPI{
     }
 
     /**
-     * deliveries/close: Отменить заказ доставки
+     * deliveries/close: Закрыть заказ доставки
      * @param string $orderId
      * @return object API
      * @throws \Exception
      */
-    public function cancelDelivery($orderId){
+    public function closeDelivery($orderId){
         try {
             $params = [
                 'organizationId' => $this->api->organization_id,
                 'orderId' => $orderId
             ];
             $response = $this->api->makeApiRequest('deliveries/close', 'POST', $params);
+            return $response;
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * deliveries/cancel: Отменить заказ доставки
+     * @param string $orderId
+     * @param string $cancelCauseId идентификатор элемента словаря. (Причины отмены доставки.)
+     * @param string $removalTypeId Тип удаления (для удаления напечатанных позиций заказа).
+     * @param string $movedOrderId Заполните это поле идентификатором нового заказа, если текущий заказ был перемещен в новую группу RMS/терминалов.
+     * @param string $userIdForWriteoff Пользователь для списания (для удаления распечатанных позиций заказа).
+     * @return object API
+     * @throws \Exception
+     */
+    public function cancelDelivery($orderId, $cancelCauseId='', $removalTypeId = '', $movedOrderId='', $userIdForWriteoff = ''){
+        try {
+            $params = [
+                'organizationId' => $this->api->organization_id,
+                'orderId' => $orderId
+            ];
+
+            if(!empty($cancelCauseId)) $params['cancelCauseId'] = $cancelCauseId;
+            if(!empty($movedOrderId)) $params['movedOrderId'] = $movedOrderId;
+            if(!empty($removalTypeId)) $params['removalTypeId'] = $removalTypeId;
+            if(!empty($userIdForWriteoff)) $params['userIdForWriteoff'] = $userIdForWriteoff;
+
+            $response = $this->api->makeApiRequest('deliveries/cancel', 'POST', $params);
             return $response;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage(), $e->getCode());
@@ -763,6 +792,23 @@ class DictionaryAPI{
             ];
             $response = $this->api->makeApiRequest('removal_types', 'POST', $params);
             return $response->removalTypes;
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Причины отмены доставки.
+     * @return array
+     * @throws \Exception
+     */
+    public function getCancelCauses(){
+        try {
+            $params = [
+                'organizationIds' => [$this->api->organization_id],
+            ];
+            $response = $this->api->makeApiRequest('cancel_causes', 'POST', $params);
+            return $response->cancelCauses;
         }catch (\Exception $e){
             throw new \Exception($e->getMessage(), $e->getCode());
         }
